@@ -1,0 +1,88 @@
+﻿@page
+@model Pages.Users.EditUserModel
+@{
+
+}
+<h1>@if(Model.user.Id>0){<span>Edit</span>}else{<span>Create</span>} User</h1>
+<hr>
+@if(Model.message!=null){
+  <div class="alert alert-success" role="alert">
+    @Model.message
+  </div>
+}
+
+<form class="row" method="post">
+  <input type="hidden" asp-for="user.Id">
+  <div class="col-sm-12 col-md-6 col-lg-4 pt">
+    <label for="user.Role" class="form-label">Role</label>
+    <select required asp-for="user.Role" class="form-select form-control" aria-label="Default select example" style="width:100%">
+      <option value="0">Student</option>
+      <option value="1">Guardian</option>
+      <option value="2">Teacher</option>
+      <option value="3">Tutor</option>
+    </select>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <label for="user.DNI" class="form-label">DNI</label>
+    <input required type="number" class="form-control" asp-for="user.DNI">
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <label for="user.FirtsName" class="form-label">FirtsName</label>
+    <input required type="text" class="form-control" asp-for="user.FirtsName">
+    <span asp-validation-for="user.FirtsName" class="text-danger"></span>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <label for="user.LastName" class="form-label">LastName</label>
+    <input required type="text" class="form-control" asp-for="user.LastName">
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <label for="user.PhoneNumber" class="form-label">PhoneNumber</label>
+    <input required type="number" class="form-control" asp-for="user.PhoneNumber">
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <label for="user.Email" class="form-label">Email</label>
+    <input required type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" asp-for="user.Email">
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <label for="user.Address" class="form-label">Address</label>
+    <input required type="text" class="form-control" id="exampleFormControlInput1" placeholder="Calle Falsa N° 123" asp-for="user.Address">
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4 pt">
+    <label for="user.DegreId" class="form-label">Degree</label>
+    <select asp-for="user.DegreId" class="form-select form-control" aria-label="Default select example" style="width:100%">
+      <option value=""></option>
+      @foreach (var d in Model.degres)
+      {
+        <option value="@d.Id">@d.Name</option>
+      }
+    </select>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4 pt">
+    <label for="user.GuardianId" class="form-label">Guardian</label>
+    <select asp-for="user.GuardianId" class="form-select form-control" aria-label="Default select example" style="width:100%">
+      <option value=""></option>
+      @foreach (var u in Model.users)
+      {
+        <option value="@u.Id">@u.FirtsName @u.LastName</option>
+      }
+    </select>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4 pt">
+    <label for="user.Gender" class="form-label">Gender</label>
+    <select asp-for="user.Gender" class="form-select form-control" aria-label="Default select example" style="width:100%">
+      <option value=""></option>
+      <option value="0">Male</option>
+      <option value="1">Female</option>
+    </select>
+  </div>
+  <div class="col-12 form-label">
+    <input class="btn btn-primary" type="submit" value="Submit">
+  </div>
+</form>
+
+<hr>
+<h1>Inscriptions</h1>
+@foreach (var item in Model.Inscriptions)
+{
+    <h1>@item.Id</h1>
+}

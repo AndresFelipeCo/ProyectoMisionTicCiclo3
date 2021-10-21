@@ -1,0 +1,52 @@
+dotnet tool install --global dotnet-ef
+dotnet tool update --global dotnet-ef
+
+dotnet new sln -o FollowStudent
+cd FollowStudent
+dotnet new classlib -o Persistence
+cd Persistence
+# Se modifica Persistence.csproj (netstandard2.1)
+dotnet add package Microsoft.EntityFrameworkCore --version 5.0.0
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 5.0.0
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 5.0.0
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 5.0.0
+cd ..
+dotnet new classlib -o Domain
+dotnet new webapi -o Services
+
+dotnet build
+dotnet add reference ../Domain/
+#! NO ESTA COOMPILANDO!1
+dotnet new console -o Consola
+cd Consola
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 5.0.0
+dotnet add reference ../Persistence/
+dotnet build
+#! NO ESTA COOMPILANDO!1
+
+!MIGRATIONS!
+cd ../Persistence
+dotnet ef migrations add GuardianId --startup-project ../Consola/
+dotnet ef database update --startup-project ../Consola/
+dotnet ef migrations add One --startup-project ../Frontend/
+dotnet ef database update --startup-project ../Frontend/
+!END MIGRATIONS!
+
+
+!Frontend!
+dotnet new webapp -o Frontend
+dotnet new page -n List -na Pages -o ./Pages/Users
+dotnet new page -n Edit -na Pages -o ./Pages/Users
+dotnet new page -n NoFound -na Pages -o ./Pages
+dotnet add package System.ComponentModel.Annotations
+!cambiar namespace Frontend.Pages.Saludos!
+dotnet add reference ../Persistence/
+services.AddSingleton<IRepositoryUser, RepositoryUser>();
+!EndFrontend!
+
+
+git init
+git remote add origin https://gitlab.com/ag2725/FollowStudent.git
+git add .
+git commit -m "Repositorio inicial"
+git push --all

@@ -1,0 +1,47 @@
+﻿@page
+@model Pages.Users.ListModel
+@{
+}
+@if(Model.user==null){
+  <a class="btn btn-info center" asp-page="/Users/EditUser" role="button">New User</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Phone Number</th>
+        <th scope="col">Address</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var user in Model.users)
+      {
+        <tr>
+          <th scope="row">@user.Id</th>
+          <td>
+            @* <a asp-page="Users/List" asp-route-userId="@user.Id" rel="noopener noreferrer"> *@
+            <a href="/Users/List?userId=@user.Id" rel="noopener noreferrer">
+              @user.FirtsName
+              @user.LastName
+            </a>
+          </td>
+          <td>@user.PhoneNumber</td>
+          <td>@user.Address</td>
+          <td>
+            <a href="/Users/EditUser?userId=@user.Id">
+              <span class="material-icons text-info">edit</span>
+            </a>
+            <a href="/Users/Delete?userId=@user.Id">
+              <span class="material-icons text-danger">delete</span>
+            </a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+}
+else{
+  <td>joder</td>
+}
